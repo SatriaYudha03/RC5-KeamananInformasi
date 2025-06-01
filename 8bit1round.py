@@ -10,7 +10,7 @@ from email.mime.multipart import MIMEMultipart
 WORD_SIZE = 8
 ROUNDS = 1
 P = 0xB7
-Q = 0x9F
+Q = 0x9E
 
 MOD = 2 ** WORD_SIZE
 
