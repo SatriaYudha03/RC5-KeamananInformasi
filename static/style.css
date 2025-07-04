@@ -34,7 +34,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     /* Lapisan gelap transparan di atas background gambar agar teks lebih kontras */
-    background-color: rgba(0, 0, 0, 0.3);
+    /* background-color: rgba(0, 0, 0, 0.3); */
     border-radius: 12px;
     padding: 40px;
 }
@@ -216,7 +216,7 @@ textarea {
     padding: 12px;
     border: 1px solid #2a52be; /* Border warna biru */
     border-radius: 6px;
-    font-size: 1em;
+    font-size: 1.2em;
     background-color: #1a1e26; /* Latar belakang input gelap */
     color: #ffffff; /* Warna teks input putih */
     box-sizing: border-box;
@@ -248,8 +248,9 @@ textarea:-webkit-autofill:active {
 
 
 textarea {
-    resize: vertical; /* Hanya bisa diresize secara vertikal */
-    min-height: 120px; /* Tinggi minimum textarea */
+    resize: vertical; 
+    min-height: 100px; 
+    max-height: 150px;
 }
 
 /* Gaya untuk kotak hasil dekripsi */

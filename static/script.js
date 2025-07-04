@@ -15,7 +15,7 @@ const maxGlow = 50; // Radius blur maksimum untuk cahaya utama
 const maxSpread = 70; // Radius blur maksimum untuk cahaya yang lebih menyebar
 const glowOffset = 10; // Offset bayangan teks dasar yang konstan
 
-// Function to update the glowing effect on each animation frame
+// Fungsi untuk memperbarui efek cahaya pada setiap frame animasi
 function updateGlow(timestamp) {
     const time = timestamp * animationSpeed;
 
@@ -33,17 +33,17 @@ function updateGlow(timestamp) {
     requestAnimationFrame(updateGlow);
 }
 
-// Start the glowing animation if the title element is found
+// Mulai animasi cahaya judul jika elemen ditemukan
 if (mainTitle) {
     requestAnimationFrame(updateGlow);
 } else {
     console.error("Elemen dengan ID 'main-title' tidak ditemukan. Efek cahaya tidak dapat diterapkan.");
 }
 
-// --- Parameter dan Logika untuk Animasi Mengetik & Menghapus ---
+// --- Parameter dan Logika untuk Animasi Mengetik ---
 const textsToAnimate = [
     "Solusi keamanan siber terbaik untuk komunikasi email Anda. Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.",
-    "Projek kolaborasi: Satria(2305551058), Rifki(2305551068), Dwiki(2305551001), Devasya(2305551074), Septino(2305551083), Tara(2305551139)"
+    "Projek hasil kolaborasi: Dwiki(2305551001), Satria(2305551058), Rifki(2305551068), Devasya(2305551074), Septino(2305551083), Tara(2305551139)"
 ];
 
 const typingSpeed = 50; // Kecepatan mengetik dalam milidetik per karakter (nilai lebih kecil = lebih cepat)
@@ -105,12 +105,15 @@ function displayFlashedMessages() {
     if (window.flashedMessages && window.flashedMessages.length > 0) {
         window.flashedMessages.forEach(function(msg) {
             const category = msg[0]; // Category (e.g., 'success', 'error')
-            const message = msg[1];   // Message text
+            let message = msg[1];   // Message text
+
+            // ===== PERBAIKAN DI SINI: Ganti \n dengan <br> untuk SweetAlert HTML =====
+            message = message.replace(/\n/g, '<br>');
 
             Swal.fire({
                 icon: (category === "success" ? "success" : "error"), // Determine icon based on category
                 title: (category === "success" ? "Berhasil!" : "Gagal!"), // Determine title
-                text: message, // Message text
+                html: message, // Gunakan 'html' sebagai pengganti 'text'
                 confirmButtonText: 'OK',
                 customClass: {
                     popup: 'swal-custom-popup',
