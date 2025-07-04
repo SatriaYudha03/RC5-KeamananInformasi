@@ -11,10 +11,11 @@
 <body>
     <div class="container">
         <div class="left-column">
-            <h1>RC5 Email Encryption System</h1>
+            <!-- Menambahkan ID 'main-title' agar JavaScript dapat menargetkannya -->
+            <h1 id="main-title">RC5 Email Encryption System</h1>
+            <!-- Mengubah konten paragraf untuk animasi mengetik -->
             <p class="description">
-                Solusi keamanan siber terbaik untuk komunikasi email Anda.
-                Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.
+                <span id="typing-text"></span><span class="typing-cursor">|</span>
             </p>
             <div class="btn-group">
                 <button class="encrypt-btn" onclick="location.href='/encrypt'">
@@ -41,5 +42,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Memuat file JavaScript di akhir body untuk memastikan elemen HTML sudah dimuat -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

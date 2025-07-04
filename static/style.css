@@ -64,9 +64,7 @@ h1 {
     margin-bottom: 15px;
     line-height: 1.1;
     color: #e0e0e0;
-    /* ===== Perubahan di sini: Efek glowing untuk judul ===== */
-    text-shadow: 0 0 15px rgba(42, 82, 190, 0.8), /* Cahaya biru utama */
-                 0 0 30px rgba(42, 82, 190, 0.5); /* Cahaya biru lebih menyebar */
+    /* text-shadow dikontrol oleh JavaScript */
 }
 
 /* Gaya untuk deskripsi di halaman menu */
@@ -76,19 +74,48 @@ p.description {
     margin-bottom: 40px;
     line-height: 1.5;
     max-width: 500px;
+    /* Menambahkan posisi relatif untuk kursor */
+    position: relative;
 }
+
+/* Gaya untuk kursor mengetik */
+.typing-cursor {
+    font-weight: 100; /* Membuat kursor lebih tipis */
+    font-size: 1.2em; /* Ukuran kursor sama dengan teks */
+    color: #a0a0a0; /* Warna kursor */
+    margin-left: 2px; /* Jarak dari teks */
+    vertical-align: bottom; /* Menjaga kursor sejajar dengan teks */
+    /* Animasi berkedip akan ditambahkan oleh JavaScript setelah mengetik selesai */
+}
+
+/* Keyframes untuk animasi kursor berkedip */
+@keyframes blink-caret {
+    from, to { opacity: 0; } /* Kursor tidak terlihat */
+    50% { opacity: 1; } /* Kursor terlihat */
+}
+
 
 /* Gaya untuk ikon perisai di halaman menu */
 .shield-icon {
     width: 350px;
     height: 350px;
     filter: drop-shadow(0 0 35px rgba(42, 82, 190, 0.9));
+    /* ===== Perubahan di sini: Animasi floating ===== */
+    animation: floating 3s ease-in-out infinite; /* Nama animasi, durasi, timing function, iterasi */
 }
 
 .shield-icon svg {
     width: 100%;
     height: 100%;
 }
+
+/* Keyframes untuk animasi floating */
+@keyframes floating {
+    0% { transform: translateY(0px); } /* Posisi awal */
+    50% { transform: translateY(-15px); } /* Bergerak ke atas */
+    100% { transform: translateY(0px); } /* Kembali ke posisi awal */
+}
+
 
 /* Gaya untuk grup tombol di halaman menu */
 .btn-group {
