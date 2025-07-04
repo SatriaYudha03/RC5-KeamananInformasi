@@ -4,37 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kirim Email Terenkripsi RC5</title>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; }
-        .container { background-color: white; padding: 30px 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 500px; max-width: 90%; }
-        h2 { color: #333; text-align: center; margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input[type="text"], input[type="password"], textarea {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            box-sizing: border-box; /* Include padding in width */
-        }
-        textarea { resize: vertical; min-height: 100px; }
-        .btn-group { text-align: center; margin-top: 20px; }
-        .btn-group button { background-color: #28a745; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 0 10px; transition: background-color 0.3s ease; }
-        .btn-group button:hover { background-color: #218838; }
-        .btn-group .back-btn { background-color: #6c757d; }
-        .btn-group .back-btn:hover { background-color: #5a6268; }
-        .flash-message { padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; }
-        .flash-message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .flash-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Menautkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="form-container">
         <h2>Kirim Email Terenkripsi RC5</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <ul style="list-style-type: none; padding: 0;">
+                <ul class="flash-messages-list">
                 {% for category, message in messages %}
                     <li class="flash-message {{ category }}">{{ message }}</li>
                 {% endfor %}
@@ -46,6 +25,7 @@
                 <label for="your_email">Email Anda:</label>
                 <input type="text" id="your_email" name="your_email" value="{{ your_email if your_email else '' }}" required>
             </div>
+            <!-- Bagian password aplikasi Dihapus dari form -->
             <div class="form-group">
                 <label for="receiver_email">Kirim ke Email:</label>
                 <input type="text" id="receiver_email" name="receiver_email" value="{{ receiver_email if receiver_email else '' }}" required>
@@ -62,8 +42,8 @@
                 <label for="message_body">Pesan:</label>
                 <textarea id="message_body" name="message_body" rows="8">{{ message_body if message_body else '' }}</textarea>
             </div>
-            <div class="btn-group">
-                <button type="submit">Kirim</button>
+            <div class="form-btn-group">
+                <button type="submit" class="submit-btn">Kirim</button>
                 <button type="button" class="back-btn" onclick="location.href='/'">Kembali ke Menu</button>
             </div>
         </form>

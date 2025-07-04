@@ -3,22 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RC5 Email Encryption</title>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; }
-        .container { background-color: white; padding: 30px 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 400px; max-width: 90%; }
-        h1 { color: #333; margin-bottom: 25px; }
-        .btn-group button { background-color: #007bff; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px 0; width: 80%; transition: background-color 0.3s ease; }
-        .btn-group button:hover { background-color: #0056b3; }
-    </style>
+    <title>RC5 Email Encryption - Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Menautkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Implementasi RC5 dalam Email</h1>
-        <p>Pilih Mode:</p>
-        <div class="btn-group">
-            <button onclick="location.href='/encrypt'">Kirim Pesan (Enkripsi)</button>
-            <button onclick="location.href='/decrypt'">Dekripsi Pesan</button>
+        <div class="left-column">
+            <h1>RC5 Email Encryption System</h1>
+            <p class="description">
+                Solusi keamanan siber terbaik untuk komunikasi email Anda.
+                Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.
+            </p>
+            <div class="btn-group">
+                <button class="encrypt-btn" onclick="location.href='/encrypt'">
+                    Kirim Pesan (Enkripsi)
+                </button>
+                <button class="decrypt-btn" onclick="location.href='/decrypt'">
+                    Dekripsi Pesan
+                </button>
+            </div>
+        </div>
+        <div class="right-column">
+            <!-- Ikon Perisai dengan Lubang Kunci (SVG) -->
+            <div class="shield-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L3 6V12C3 17.52 6.58 22.42 12 23C17.42 22.42 21 17.52 21 12V6L12 2Z" fill="url(#shieldGradient)" stroke="#2a52be" stroke-width="1.5"/>
+                    <path d="M12 11C10.3431 11 9 12.3431 9 14V16C9 17.6569 10.3431 19 12 19C13.6569 19 15 17.6569 15 16V14C15 12.3431 13.6569 11 12 11ZM12 11V9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="shieldGradient" x1="12" y1="2" x2="12" y2="23" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#2a52be"/>
+                            <stop offset="1" stop-color="#007bff"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
         </div>
     </div>
 </body>

@@ -1,0 +1,424 @@
+/* Gaya dasar untuk body */
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #ffffff; /* Warna teks putih */
+    overflow: hidden; /* Mencegah scroll jika ada elemen di luar viewport */
+    position: relative;
+
+    /* Latar Belakang Gambar dari folder static */
+    background-image: url('images/bgKeamanan.png');
+    background-size: cover; /* Memastikan gambar menutupi seluruh area */
+    background-position: center; /* Memusatkan gambar */
+    background-repeat: no-repeat; /* Mencegah gambar berulang */
+    background-color: #0d1117; /* Fallback warna jika gambar gagal dimuat */
+}
+
+/* ==================================================================== */
+/* ========== Gaya untuk Halaman Menu ========== */
+/* ==================================================================== */
+
+/* Container utama untuk konten halaman menu */
+.container {
+    width: 1100px;
+    max-width: 90%;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    /* Lapisan gelap transparan di atas background gambar agar teks lebih kontras */
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 40px;
+}
+
+/* Kolom kiri untuk teks dan tombol di halaman menu */
+.left-column {
+    flex: 1;
+    min-width: 400px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* Kolom kanan untuk ikon di halaman menu */
+.right-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+}
+
+/* Gaya untuk judul di halaman menu */
+h1 {
+    font-size: 3.8em;
+    font-weight: 900;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    color: #e0e0e0;
+    /* ===== Perubahan di sini: Efek glowing untuk judul ===== */
+    text-shadow: 0 0 15px rgba(42, 82, 190, 0.8), /* Cahaya biru utama */
+                 0 0 30px rgba(42, 82, 190, 0.5); /* Cahaya biru lebih menyebar */
+}
+
+/* Gaya untuk deskripsi di halaman menu */
+p.description {
+    font-size: 1.2em;
+    color: #a0a0a0;
+    margin-bottom: 40px;
+    line-height: 1.5;
+    max-width: 500px;
+}
+
+/* Gaya untuk ikon perisai di halaman menu */
+.shield-icon {
+    width: 350px;
+    height: 350px;
+    filter: drop-shadow(0 0 35px rgba(42, 82, 190, 0.9));
+}
+
+.shield-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Gaya untuk grup tombol di halaman menu */
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Gaya umum untuk tombol di halaman menu */
+.btn-group button {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    width: auto;
+    min-width: 180px;
+    max-width: 220px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Gaya khusus untuk tombol enkripsi di halaman menu */
+.btn-group button.encrypt-btn {
+    background: linear-gradient(45deg, #2a52be, #007bff);
+    color: white;
+}
+.btn-group button.encrypt-btn:hover {
+    background: linear-gradient(45deg, #007bff, #2a52be);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Gaya khusus untuk tombol dekripsi di halaman menu */
+.btn-group button.decrypt-btn {
+    background: linear-gradient(45deg, #6a11cb, #20e2d7);
+    color: white;
+}
+.btn-group button.decrypt-btn:hover {
+    background: linear-gradient(45deg, #20e2d7, #6a11cb);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================================================================== */
+/* ========== Gaya untuk Halaman Enkripsi & Dekripsi ========== */
+/* ==================================================================== */
+
+/* Kontainer untuk formulir */
+.form-container {
+    background-color: rgba(17, 25, 40, 0.8); /* Latar belakang semi-transparan */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    width: 550px; /* Lebar yang lebih sesuai untuk formulir */
+    max-width: 90%;
+    backdrop-filter: blur(5px); /* Efek blur pada latar belakang */
+    border: 1px solid rgba(42, 82, 190, 0.5); /* Border tipis */
+    text-align: center; /* Pusatkan elemen di dalamnya */
+}
+
+/* Gaya untuk judul halaman formulir */
+.form-container h2 {
+    color: #e0e0e0;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Grup formulir (label + input/textarea) */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Rata kiri untuk label dan input */
+}
+
+/* Gaya untuk label */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #a0a0a0;
+    font-size: 1em;
+}
+
+/* Gaya untuk input teks dan password */
+input[type="text"],
+input[type="password"],
+textarea {
+    width: calc(100% - 24px); /* Kurangi padding dan border */
+    padding: 12px;
+    border: 1px solid #2a52be; /* Border warna biru */
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #1a1e26; /* Latar belakang input gelap */
+    color: #ffffff; /* Warna teks input putih */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: #007bff; /* Border lebih terang saat fokus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Efek cahaya saat fokus */
+    outline: none; /* Hapus outline default browser */
+}
+
+textarea {
+    resize: vertical; /* Hanya bisa diresize secara vertikal */
+    min-height: 120px; /* Tinggi minimum textarea */
+}
+
+/* Gaya untuk kotak hasil dekripsi */
+.result-box {
+    background-color: #1a1e26; /* Latar belakang gelap */
+    border: 1px solid #2a52be;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    word-wrap: break-word;
+    min-height: 80px;
+    text-align: left;
+}
+
+.result-box label {
+    color: #e0e0e0;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.result-box p {
+    color: #ffffff;
+    font-size: 1em;
+    white-space: pre-wrap; /* Mempertahankan spasi dan baris baru */
+}
+
+/* Gaya untuk grup tombol di halaman formulir */
+.form-btn-group {
+    display: flex;
+    justify-content: center; /* Pusatkan tombol */
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Gaya umum untuk tombol di halaman formulir */
+.form-btn-group button {
+    padding: 12px 25px; /* Padding tombol formulir */
+    border: none;
+    border-radius: 6px;
+    font-size: 1em; /* Ukuran font tombol formulir */
+    font-weight: 700;
+    cursor: pointer;
+    width: auto;
+    min-width: 150px; /* Minimum width untuk tombol formulir */
+    max-width: 200px; /* Maximum width untuk tombol formulir */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Gaya khusus untuk tombol submit (Kirim/Dekripsi) */
+.form-btn-group button.submit-btn {
+    background: linear-gradient(45deg, #2a52be, #007bff); /* Menggunakan gradient yang sama dengan tombol menu */
+    color: white;
+}
+.form-btn-group button.submit-btn:hover {
+    background: linear-gradient(45deg, #007bff, #2a52be); /* Hover effect yang sama */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Gaya khusus untuk tombol kembali */
+.form-btn-group button.back-btn {
+    background: linear-gradient(45deg, #6c757d, #5a6268); /* Gradient abu-abu */
+    color: white;
+}
+.form-btn-group button.back-btn:hover {
+    background: linear-gradient(45deg, #5a6268, #6c757d); /* Hover effect yang sama */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Gaya untuk flash messages */
+.flash-message {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+
+/* ==================================================================== */
+/* ========== Media Queries untuk Responsivitas ========== */
+/* ==================================================================== */
+
+@media (max-width: 1200px) {
+    .container {
+        width: 90%;
+        gap: 60px;
+    }
+    h1 {
+        font-size: 3.2em;
+    }
+    .shield-icon {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        padding: 30px;
+        gap: 30px;
+    }
+    .left-column, .right-column {
+        min-width: unset;
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn-group button {
+        width: 70%;
+        max-width: 300px;
+        padding: 15px 30px;
+        font-size: 1.1em;
+    }
+    h1 {
+        font-size: 2.8em;
+    }
+    p.description {
+        font-size: 1.1em;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .shield-icon {
+        width: 250px;
+        height: 250px;
+    }
+
+    /* Penyesuaian untuk formulir pada layar kecil */
+    .form-container {
+        padding: 30px;
+        width: 95%;
+    }
+    .form-container h2 {
+        font-size: 1.8em;
+    }
+    .form-btn-group {
+        flex-direction: column; /* Tombol form menumpuk */
+        gap: 15px;
+    }
+    .form-btn-group button {
+        width: 80%; /* Lebar tombol form saat menumpuk */
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2em;
+    }
+    p.description {
+        font-size: 0.95em;
+    }
+    .shield-icon {
+        width: 200px;
+        height: 200px;
+    }
+    .btn-group button {
+        width: 85%;
+        font-size: 1em;
+        padding: 15px 30px;
+    }
+    .form-container h2 {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    p.description {
+        font-size: 0.9em;
+    }
+    .shield-icon {
+        width: 150px;
+        height: 150px;
+    }
+    .btn-group button {
+        width: 95%;
+        font-size: 0.9em;
+        padding: 12px 25px;
+    }
+    .form-container {
+        padding: 20px;
+    }
+    .form-btn-group button {
+        width: 90%;
+    }
+}
