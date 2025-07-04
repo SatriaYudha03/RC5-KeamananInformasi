@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dekripsi Pesan RC5</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f4f4; margin: 0; }
+        .container { background-color: white; padding: 30px 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 500px; max-width: 90%; }
+        h2 { color: #333; text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea { resize: vertical; min-height: 150px; }
+        .btn-group { text-align: center; margin-top: 20px; }
+        .btn-group button { background-color: #007bff; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 0 10px; transition: background-color 0.3s ease; }
+        .btn-group button:hover { background-color: #0056b3; }
+        .btn-group .back-btn { background-color: #6c757d; }
+        .btn-group .back-btn:hover { background-color: #5a6268; }
+        .result-box { background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 4px; padding: 15px; margin-top: 20px; word-wrap: break-word; min-height: 50px; }
+        .flash-message { padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; }
+        .flash-message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .flash-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Dekripsi Pesan RC5</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul style="list-style-type: none; padding: 0;">
+                {% for category, message in messages %}
+                    <li class="flash-message {{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="/decrypt">
+            <div class="form-group">
+                <label for="ciphertext">Masukkan Ciphertext (base64):</label>
+                <textarea id="ciphertext" name="ciphertext" rows="10" required>{{ ciphertext if ciphertext else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="rc5_key">Kunci RC5:</label>
+                <input type="text" id="rc5_key" name="rc5_key" value="{{ rc5_key if rc5_key else '' }}" required>
+            </div>
+            <div class="btn-group">
+                <button type="submit">Dekripsi</button>
+                <button type="button" class="back-btn" onclick="location.href='/'">Kembali ke Menu</button>
+            </div>
+        </form>
+
+        {% if decrypted_result %}
+            <div class="result-box">
+                <label>Plaintext Hasil Dekripsi:</label>
+                <p>{{ decrypted_result }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
