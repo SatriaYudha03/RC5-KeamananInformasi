@@ -7,19 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Menautkan ke file CSS eksternal -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Script kecil untuk meneruskan flash messages ke JavaScript eksternal -->
+    <script>
+        // Mendefinisikan variabel global untuk flash messages
+        // Data ini akan diisi oleh Jinja2 (Flask)
+        window.flashedMessages = {{ flashed_messages | safe }};
+    </script>
 </head>
 <body>
     <div class="form-container">
         <h2>Dekripsi Pesan RC5</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="flash-messages-list">
-                {% for category, message in messages %}
-                    <li class="flash-message {{ category }}">{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+        <!-- Flash messages akan ditangani oleh JavaScript SweetAlert di script.js -->
         <form method="POST" action="/decrypt">
             <div class="form-group">
                 <label for="ciphertext">Masukkan Ciphertext (base64):</label>
@@ -31,7 +32,7 @@
             </div>
             <div class="form-btn-group">
                 <button type="submit" class="submit-btn">Dekripsi</button>
-                <button type="button" class="back-btn" onclick="location.href='/'">Kembali ke Menu</button>
+                <button type="button" class="back-btn" onclick="location.href='/'">Kembali</button>
             </div>
         </form>
 
@@ -42,5 +43,8 @@
             </div>
         {% endif %}
     </div>
+
+    <!-- Memuat file JavaScript eksternal setelah SweetAlert2 CDN -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -7,27 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Menautkan ke file CSS eksternal -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Script kecil untuk meneruskan flash messages ke JavaScript eksternal -->
+    <script>
+        // Mendefinisikan variabel global untuk flash messages
+        // Data ini akan diisi oleh Jinja2 (Flask)
+        window.flashedMessages = {{ flashed_messages | safe }};
+    </script>
 </head>
 <body>
     <div class="form-container">
         <h2>Kirim Email Terenkripsi RC5</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="flash-messages-list">
-                {% for category, message in messages %}
-                    <li class="flash-message {{ category }}">{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+        <!-- Flash messages akan ditangani oleh JavaScript SweetAlert di script.js -->
         <form method="POST" action="/encrypt">
             <div class="form-group">
                 <label for="your_email">Email Anda:</label>
                 <input type="text" id="your_email" name="your_email" value="{{ your_email if your_email else '' }}" required>
             </div>
-            <!-- Bagian password aplikasi Dihapus dari form -->
             <div class="form-group">
-                <label for="receiver_email">Kirim ke Email:</label>
+                <label for="receiver_email">Email Tujuan:</label>
                 <input type="text" id="receiver_email" name="receiver_email" value="{{ receiver_email if receiver_email else '' }}" required>
             </div>
             <div class="form-group">
@@ -44,9 +44,12 @@
             </div>
             <div class="form-btn-group">
                 <button type="submit" class="submit-btn">Kirim</button>
-                <button type="button" class="back-btn" onclick="location.href='/'">Kembali ke Menu</button>
+                <button type="button" class="back-btn" onclick="location.href='/'">Kembali</button>
             </div>
         </form>
     </div>
+
+    <!-- Memuat file JavaScript eksternal setelah SweetAlert2 CDN -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

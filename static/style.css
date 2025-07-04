@@ -11,7 +11,7 @@ body {
     position: relative;
 
     /* Latar Belakang Gambar dari folder static */
-    background-image: url('images/bgKeamanan.png');
+    background-image: url('images/bgWebKeamanan.png');
     background-size: cover; /* Memastikan gambar menutupi seluruh area */
     background-position: center; /* Memusatkan gambar */
     background-repeat: no-repeat; /* Mencegah gambar berulang */
@@ -44,7 +44,7 @@ body {
     flex: 1;
     min-width: 400px;
     text-align: left;
-    padding-left: 20px;
+    padding-left: 60px;
 }
 
 /* Kolom kanan untuk ikon di halaman menu */
@@ -100,7 +100,6 @@ p.description {
     width: 350px;
     height: 350px;
     filter: drop-shadow(0 0 35px rgba(42, 82, 190, 0.9));
-    /* ===== Perubahan di sini: Animasi floating ===== */
     animation: floating 3s ease-in-out infinite; /* Nama animasi, durasi, timing function, iterasi */
 }
 
@@ -232,6 +231,22 @@ textarea:focus {
     outline: none; /* Hapus outline default browser */
 }
 
+/* ===== Perbaikan Autofill Browser ===== */
+/* Menargetkan input dan textarea yang diisi otomatis oleh browser */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill, /* Menambahkan textarea */
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px #1a1e26 inset !important; /* Warna latar belakang gelap */
+    -webkit-text-fill-color: #ffffff !important; /* Warna teks putih */
+    border: 1px solid #2a52be !important; /* Border biru yang konsisten */
+}
+
+
 textarea {
     resize: vertical; /* Hanya bisa diresize secara vertikal */
     min-height: 120px; /* Tinggi minimum textarea */
@@ -333,6 +348,51 @@ textarea {
 
 
 /* ==================================================================== */
+/* ========== Gaya Kustom SweetAlert2 ========== */
+/* ==================================================================== */
+
+.swal-custom-popup {
+    background-color: rgba(17, 25, 40, 0.9) !important; /* Latar belakang gelap semi-transparan */
+    border: 1px solid rgba(42, 82, 190, 0.7) !important; /* Border biru */
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px) !important; /* Efek blur yang lebih kuat */
+    color: #e0e0e0 !important; /* Warna teks utama */
+    font-family: 'Inter', sans-serif !important;
+}
+
+.swal-custom-title {
+    color: #e0e0e0 !important; /* Warna judul */
+    font-size: 1.8em !important;
+    font-weight: 700 !important;
+    text-shadow: 0 0 10px rgba(42, 82, 190, 0.6) !important; /* Efek cahaya pada judul SweetAlert */
+}
+
+.swal-custom-html-container {
+    color: #a0a0a0 !important; /* Warna teks konten */
+    font-size: 1.1em !important;
+    line-height: 1.5 !important;
+}
+
+.swal-custom-confirm-button {
+    background: linear-gradient(45deg, #2a52be, #007bff) !important; /* Gradient biru seperti tombol enkripsi */
+    color: white !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    border-radius: 8px !important;
+    padding: 10px 25px !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.swal-custom-confirm-button:hover {
+    background: linear-gradient(45deg, #007bff, #2a52be) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+}
+
+
+/* ==================================================================== */
 /* ========== Media Queries untuk Responsivitas ========== */
 /* ==================================================================== */
 
@@ -403,6 +463,18 @@ textarea {
         width: 80%; /* Lebar tombol form saat menumpuk */
         max-width: 300px;
     }
+
+    /* SweetAlert responsivitas */
+    .swal-custom-popup {
+        width: 90% !important;
+        font-size: 0.9em !important;
+    }
+    .swal-custom-title {
+        font-size: 1.5em !important;
+    }
+    .swal-custom-html-container {
+        font-size: 1em !important;
+    }
 }
 
 @media (max-width: 768px) {
@@ -447,5 +519,21 @@ textarea {
     }
     .form-btn-group button {
         width: 90%;
+    }
+
+    /* SweetAlert responsivitas */
+    .swal-custom-popup {
+        width: 95% !important;
+        font-size: 0.85em !important;
+    }
+    .swal-custom-title {
+        font-size: 1.2em !important;
+    }
+    .swal-custom-html-container {
+        font-size: 0.9em !important;
+    }
+    .swal-custom-confirm-button {
+        padding: 8px 20px !important;
+        font-size: 0.9em !important;
     }
 }

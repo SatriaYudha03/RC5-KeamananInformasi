@@ -15,7 +15,7 @@ const maxGlow = 50; // Radius blur maksimum untuk cahaya utama
 const maxSpread = 70; // Radius blur maksimum untuk cahaya yang lebih menyebar
 const glowOffset = 10; // Offset bayangan teks dasar yang konstan
 
-// Fungsi untuk memperbarui efek cahaya pada setiap frame animasi
+// Function to update the glowing effect on each animation frame
 function updateGlow(timestamp) {
     const time = timestamp * animationSpeed;
 
@@ -33,44 +33,98 @@ function updateGlow(timestamp) {
     requestAnimationFrame(updateGlow);
 }
 
-// Mulai animasi cahaya judul jika elemen ditemukan
+// Start the glowing animation if the title element is found
 if (mainTitle) {
     requestAnimationFrame(updateGlow);
 } else {
     console.error("Elemen dengan ID 'main-title' tidak ditemukan. Efek cahaya tidak dapat diterapkan.");
 }
 
-// --- Parameter dan Logika untuk Animasi Mengetik ---
-const fullText = "Solusi keamanan siber terbaik untuk komunikasi email Anda. Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.";
+// --- Parameter dan Logika untuk Animasi Mengetik & Menghapus ---
+const textsToAnimate = [
+    "Solusi keamanan siber terbaik untuk komunikasi email Anda. Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.",
+    "Projek kolaborasi: Satria(2305551058), Rifki(2305551068), Dwiki(2305551001), Devasya(2305551074), Septino(2305551083), Tara(2305551139)"
+];
+
 const typingSpeed = 50; // Kecepatan mengetik dalam milidetik per karakter (nilai lebih kecil = lebih cepat)
+const deletingSpeed = 30; // Kecepatan menghapus dalam milidetik per karakter
+const delayAfterTyping = 1500; // Jeda setelah selesai mengetik (ms)
+const delayAfterDeleting = 500; // Jeda setelah selesai menghapus (ms)
 
+let textIndex = 0; // Indeks teks saat ini dalam array textsToAnimate
 let charIndex = 0;
+let isDeleting = false; // State untuk melacak apakah sedang mengetik atau menghapus
 
-// Fungsi untuk mengetik teks karakter demi karakter
-function typeText() {
-    if (charIndex < fullText.length) {
-        // Tambahkan karakter satu per satu ke elemen teks
-        typingTextElement.textContent += fullText.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeText, typingSpeed); // Panggil fungsi lagi setelah jeda
+// Function to handle typing and deleting animation
+function typeAndDelete() {
+    const currentText = textsToAnimate[textIndex]; // Teks yang sedang dianimasikan
+
+    if (isDeleting) {
+        // Mode menghapus
+        if (charIndex > 0) {
+            typingTextElement.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(typeAndDelete, deletingSpeed);
+        } else {
+            // Selesai menghapus, beralih ke teks berikutnya
+            isDeleting = false;
+            textIndex = (textIndex + 1) % textsToAnimate.length; // Pindah ke teks berikutnya
+            setTimeout(typeAndDelete, delayAfterDeleting); // Jeda sebelum mengetik lagi
+        }
     } else {
-        // Setelah selesai mengetik, pastikan kursor berkedip
-        if (typingCursorElement) {
-            typingCursorElement.style.animation = 'blink-caret 0.75s step-end infinite';
+        // Mode mengetik
+        if (charIndex < currentText.length) {
+            typingTextElement.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+            setTimeout(typeAndDelete, typingSpeed);
+        } else {
+            // Selesai mengetik, beralih ke mode menghapus
+            isDeleting = true;
+            if (typingCursorElement) {
+                typingCursorElement.style.animation = 'blink-caret 0.75s step-end infinite'; // Kursor berkedip saat jeda
+            }
+            setTimeout(typeAndDelete, delayAfterTyping); // Jeda sebelum menghapus
         }
     }
 }
 
-// Mulai animasi mengetik setelah halaman dimuat sepenuhnya
-// Memastikan elemen ada sebelum mencoba mengaksesnya
-if (typingTextElement) {
-    // Sembunyikan kursor dan kosongkan teks di awal
-    if (typingCursorElement) {
-        typingCursorElement.style.visibility = 'visible'; // Pastikan kursor terlihat
-        typingCursorElement.style.animation = 'none'; // Hentikan animasi kedip awal
-    }
+// Start the typing and deleting animation
+if (typingTextElement && typingCursorElement) {
     typingTextElement.textContent = ''; // Kosongkan teks di awal
-    setTimeout(typeText, 500); // Mulai animasi mengetik setelah jeda singkat (0.5 detik)
+    typingCursorElement.style.visibility = 'visible'; // Pastikan kursor terlihat
+    // Mulai animasi setelah jeda singkat
+    setTimeout(typeAndDelete, 500);
 } else {
-    console.error("Elemen dengan ID 'typing-text' tidak ditemukan. Animasi mengetik tidak dapat diterapkan.");
+    console.error("Elemen dengan ID 'typing-text' atau class 'typing-cursor' tidak ditemukan. Animasi mengetik tidak dapat diterapkan.");
 }
+
+// --- Logika untuk Menampilkan SweetAlert dari Flash Messages ---
+// This function will be called after DOMContentLoaded
+function displayFlashedMessages() {
+    // Check if there are flash messages passed from Flask
+    if (window.flashedMessages && window.flashedMessages.length > 0) {
+        window.flashedMessages.forEach(function(msg) {
+            const category = msg[0]; // Category (e.g., 'success', 'error')
+            const message = msg[1];   // Message text
+
+            Swal.fire({
+                icon: (category === "success" ? "success" : "error"), // Determine icon based on category
+                title: (category === "success" ? "Berhasil!" : "Gagal!"), // Determine title
+                text: message, // Message text
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'swal-custom-popup',
+                    title: 'swal-custom-title',
+                    htmlContainer: 'swal-custom-html-container',
+                    confirmButton: 'swal-custom-confirm-button'
+                }
+            });
+        });
+        // Clear messages from global variable after displaying to prevent duplication
+        window.flashedMessages = [];
+    }
+}
+
+// Call displayFlashedMessages function after DOM is loaded
+// This ensures SweetAlert2 and HTML elements are ready
+document.addEventListener('DOMContentLoaded', displayFlashedMessages);
