@@ -14,7 +14,7 @@
     <script>
         // Mendefinisikan variabel global untuk flash messages
         // Data ini akan diisi oleh Jinja2 (Flask)
-        window.flashedMessages = {{ flashed_messages | safe }};
+        window.flashedMessages = {{ flashed_messages | tojson | safe }};
     </script>
 </head>
 <body>
