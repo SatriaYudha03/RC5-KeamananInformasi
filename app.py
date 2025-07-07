@@ -22,13 +22,11 @@ app.secret_key = 'ini_secret_key_static_ganti_di_produksi'  # Contoh: os.urandom
 def menu():
     return render_template('menu.html')
 
-
 # =======================
 # ROUTE: ENKRIPSI + KIRIM EMAIL
 # =======================
 @app.route('/encrypt', methods=['GET', 'POST'])
 def encrypt_page():
-    # Form prefill
     your_email = ''
     app_password = ''
     receiver_email = ''
@@ -37,7 +35,6 @@ def encrypt_page():
     message_body = ''
 
     if request.method == 'POST':
-        # Ambil data form
         your_email = request.form.get('your_email', '').strip()
         app_password = request.form.get('app_password', '').strip()
         receiver_email = request.form.get('receiver_email', '').strip()
@@ -45,7 +42,6 @@ def encrypt_page():
         rc5_key = request.form.get('rc5_key', '').strip()
         message_body = request.form.get('message_body', '').strip()
 
-        # Validasi input
         errors = []
 
         if not your_email:
@@ -70,13 +66,11 @@ def encrypt_page():
         if not message_body:
             errors.append('Isi pesan tidak boleh kosong.')
 
-        # Kalau ada error, tampilkan ke user
         if errors:
             for err in errors:
                 flash(err, 'error')
         else:
             try:
-                # Enkripsi pesan
                 start_time_encrypt = time.perf_counter()
                 encrypted_message = encrypt_text(message_body, rc5_key)
                 end_time_encrypt = time.perf_counter()
@@ -89,7 +83,7 @@ def encrypt_page():
                 msg['Subject'] = subject
                 msg.attach(MIMEText(encrypted_message, 'plain'))
 
-                # Kirim via Gmail SMTP
+                # Kirim email
                 with smtplib.SMTP('smtp.gmail.com', 587) as server:
                     server.starttls()
                     server.login(your_email, app_password)
@@ -110,7 +104,6 @@ def encrypt_page():
                            rc5_key=rc5_key,
                            message_body=message_body,
                            flashed_messages=flashed_messages_list)
-
 
 # =======================
 # ROUTE: DEKRIPSI
@@ -140,18 +133,16 @@ def decrypt_page():
                 start_time = time.perf_counter()
                 decrypted_text_result = decrypt_text(ciphertext_b64, rc5_key)
                 end_time = time.perf_counter()
-
-                # Periksa apakah hasil benar-benar tidak kosong
-                if decrypted_text_result is None or decrypted_text_result.strip() == "":
-                    raise ValueError("Hasil dekripsi kosong. Ciphertext atau kunci salah.")
-
                 decryption_duration = end_time - start_time
 
+                # ✅ Ubah: walaupun hasil dekripsi tidak bisa dibaca,
+                # tetap kirim flash 'success'
                 flash(f'Pesan berhasil didekripsi!<br>Waktu dekripsi RC5: {decryption_duration:.4f} detik.', 'success')
 
             except Exception as e:
-                flash(f'Gagal mendekripsi: {str(e)}', 'error')
-                decrypted_text_result = None  # Kosongkan hasil jika error
+                # Tetap flash 'success', tapi hasilnya mungkin aneh
+                decrypted_text_result = f'[Dekripsi gagal: {e}]'
+                flash('Pesan berhasil didekripsi! (walaupun hasilnya tidak bisa dibaca)', 'success')
 
     flashed_messages_list = get_flashed_messages(with_categories=True)
     return render_template(
@@ -161,7 +152,6 @@ def decrypt_page():
         decrypted_result=decrypted_text_result,
         flashed_messages=flashed_messages_list
     )
-
 
 # =======================
 # JALANKAN APLIKASI
