@@ -43,7 +43,7 @@ if (mainTitle) {
 // --- Parameter dan Logika untuk Animasi Mengetik ---
 const textsToAnimate = [
     "Solusi keamanan siber terbaik untuk komunikasi email Anda. Enkripsi dan dekripsi pesan dengan algoritma RC5 yang kuat.",
-    "Projek hasil kolaborasi: Dwiki(2305551001), Satria(2305551058), Rifki(2305551068), Devasya(2305551074), Septino(2305551083), Tara(2305551139)"
+    "Projek hasil kolaborasi: Dwiki(2305551001), Satria(2305551058), Rifki(2305551068), Devasya(2305551071), Septino(2305551083), Tara(2305551139)"
 ];
 
 const typingSpeed = 50; // Kecepatan mengetik dalam milidetik per karakter (nilai lebih kecil = lebih cepat)
