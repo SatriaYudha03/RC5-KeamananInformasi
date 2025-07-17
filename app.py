@@ -2,8 +2,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask import Flask, render_template, request, redirect, url_for, flash, get_flashed_messages
-import os
+import json
 import time
+import os
 
 from rc5_cipher import encrypt_text, decrypt_text
 
@@ -13,7 +14,7 @@ from rc5_cipher import encrypt_text, decrypt_text
 app = Flask(__name__)
 
 # SECRET KEY WAJIB: GANTI DENGAN YANG KUAT DI PRODUKSI
-app.secret_key = 'ini_secret_key_static_ganti_di_produksi'  # Contoh: os.urandom(24).hex()
+app.secret_key = 'ini_secret_key_static_ganti_di_produksi' # Contoh: os.urandom(24).hex()
 
 # =======================
 # ROUTE: MENU UTAMA
@@ -76,14 +77,12 @@ def encrypt_page():
                 end_time_encrypt = time.perf_counter()
                 encryption_duration = end_time_encrypt - start_time_encrypt
 
-                # Siapkan email
                 msg = MIMEMultipart()
                 msg['From'] = your_email
                 msg['To'] = receiver_email
                 msg['Subject'] = subject
                 msg.attach(MIMEText(encrypted_message, 'plain'))
 
-                # Kirim email
                 with smtplib.SMTP('smtp.gmail.com', 587) as server:
                     server.starttls()
                     server.login(your_email, app_password)
@@ -104,6 +103,50 @@ def encrypt_page():
                            rc5_key=rc5_key,
                            message_body=message_body,
                            flashed_messages=flashed_messages_list)
+
+# =======================
+# ROUTE: ENKRIPSI SAJA (TANPA KIRIM EMAIL)
+# =======================
+@app.route('/encrypt_only', methods=['GET', 'POST'])
+def encrypt_only_page():
+    message_body = ''
+    rc5_key = ''
+    encrypted_result = None
+    
+    if request.method == 'POST':
+        message_body = request.form.get('message_body', '').strip()
+        rc5_key = request.form.get('rc5_key', '').strip()
+
+        errors = []
+
+        if not message_body:
+            errors.append('Isi pesan tidak boleh kosong.')
+        if not rc5_key:
+            errors.append('Kunci RC5 tidak boleh kosong.')
+
+        if errors:
+            for err in errors:
+                flash(err, 'error')
+        else:
+            try:
+                start_time_encrypt = time.perf_counter()
+                encrypted_result = encrypt_text(message_body, rc5_key)
+                end_time_encrypt = time.perf_counter()
+                encryption_duration = end_time_encrypt - start_time_encrypt
+                
+                flash(f'Pesan berhasil dienkripsi!<br>Waktu enkripsi RC5: {encryption_duration:.4f} detik.', 'success')
+
+            except Exception as e:
+                flash(f'Gagal mengenkripsi: {e}', 'error')
+                encrypted_result = f'[Enkripsi gagal: {e}]' # Tampilkan error di area hasil
+
+    flashed_messages_list = get_flashed_messages(with_categories=True)
+    return render_template('encrypt_only.html',
+                           message_body=message_body,
+                           rc5_key=rc5_key,
+                           encrypted_result=encrypted_result,
+                           flashed_messages=flashed_messages_list)
+
 
 # =======================
 # ROUTE: DEKRIPSI
@@ -135,14 +178,11 @@ def decrypt_page():
                 end_time = time.perf_counter()
                 decryption_duration = end_time - start_time
 
-                # ✅ Ubah: walaupun hasil dekripsi tidak bisa dibaca,
-                # tetap kirim flash 'success'
                 flash(f'Pesan berhasil didekripsi!<br>Waktu dekripsi RC5: {decryption_duration:.4f} detik.', 'success')
 
             except Exception as e:
-                # Tetap flash 'success', tapi hasilnya mungkin aneh
                 decrypted_text_result = f'[Dekripsi gagal: {e}]'
-                flash('Pesan berhasil didekripsi! (walaupun hasilnya tidak bisa dibaca)', 'success')
+                flash(f'Gagal mendekripsi: {e}. Pastikan ciphertext dan kunci benar.', 'error')
 
     flashed_messages_list = get_flashed_messages(with_categories=True)
     return render_template(

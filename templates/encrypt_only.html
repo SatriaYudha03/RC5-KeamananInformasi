@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enkripsi Pesan (Saja)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Menautkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Script kecil untuk meneruskan flash messages ke JavaScript eksternal -->
+    <script>
+        // Mendefinisikan variabel global untuk flash messages
+        window.flashedMessages = {{ flashed_messages | tojson | safe }};
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Enkripsi Pesan (Saja)</h2>
+        <!-- Flash messages akan ditangani oleh JavaScript SweetAlert di script.js -->
+        <form method="POST" action="/encrypt_only">
+            <div class="form-group">
+                <label for="message_body">Pesan Asli:</label>
+                <textarea id="message_body" name="message_body" rows="8">{{ message_body if message_body else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="rc5_key">Kunci RC5:</label>
+                <input type="text" id="rc5_key" name="rc5_key" value="{{ rc5_key if rc5_key else '' }}" required>
+            </div>
+            <div class="form-btn-group">
+                <button type="submit" class="submit-btn">Enkripsi</button>
+                <button type="button" class="back-btn" onclick="location.href='/'">Kembali ke Menu</button>
+            </div>
+        </form>
+
+        {% if encrypted_result %}
+            <div class="result-box">
+                <label>Hasil Enkripsi (Base64):</label>
+                <textarea id="encrypted_output" class="encrypted-output-textarea" readonly>{{ encrypted_result }}</textarea>
+                <button type="button" class="copy-btn" onclick="copyToClipboard('encrypted_output')">Salin Hasil</button>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Memuat file JavaScript eksternal setelah SweetAlert2 CDN -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk menyalin teks ke clipboard
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                document.execCommand('copy');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Disalin!',
+                    text: 'Teks berhasil disalin ke clipboard.',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        htmlContainer: 'swal-custom-html-container',
+                        confirmButton: 'swal-custom-confirm-button'
+                    }
+                });
+            } catch (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Gagal menyalin teks.',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        htmlContainer: 'swal-custom-html-container',
+                        confirmButton: 'swal-custom-confirm-button'
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
